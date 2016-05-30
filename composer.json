@@ -1,0 +1,18 @@
+{
+	"name": "salted-herring/salted-library",
+	"description": "Salted Herring's PHP Library (in progress)",
+	"type": "silverstripe-module",
+	"homepage": "https://github.com/salted-herring/salted-library",
+	"license": "MIT",
+	"keywords": ["PHP", "library"],
+	"authors": [
+		{
+			"name": "Salted Herring",
+			"homepage": "http://saltedherring.com"
+		}
+	],
+	"require": {
+		"silverstripe/framework": "~3.3",
+		"silverstripe/cms": "~3.3"
+	}
+}
