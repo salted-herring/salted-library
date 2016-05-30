@@ -10,9 +10,5 @@
 			"name": "Salted Herring",
 			"homepage": "http://saltedherring.com"
 		}
-	],
-	"require": {
-		"silverstripe/framework": "~3.3",
-		"silverstripe/cms": "~3.3"
-	}
+	]
 }
