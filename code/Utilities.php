@@ -59,7 +59,11 @@ class Utilities {
 	}
 	
 	public static function get_emails($groupCode) {
+<<<<<<< HEAD
 		$group = \DataObject::get_one('Group', "Code = '" . $groupCode . "'");
+=======
+		$group = DataObject::get_one('Group', "Code = '" . $groupCode . "'");
+>>>>>>> abfe3f0f6fca0e98f1b6e9b55f10941333ac1ee4
 		
 		if (!empty($group)) {
 			return $group->Members()->column('Email');
@@ -73,7 +77,11 @@ class Utilities {
 	}
 	
 	public static function member_exist($email) {
+<<<<<<< HEAD
 		$member = \DataObject::get_one("Member",  "Email = '".$email."'");
+=======
+		$member = DataObject::get_one("Member",  "Email = '".$email."'");
+>>>>>>> abfe3f0f6fca0e98f1b6e9b55f10941333ac1ee4
 		return !empty($member);
 	}
 	
