@@ -16,6 +16,17 @@ class Utilities {
 		return $html;
 	}
 	
+	public static function SlagGen($type, $slag, $ID = null) {
+		$test = $slag;
+		$tick = 1;
+		while (!empty(\DataObject::get_one($type, array('Slag' => $test))) && (\DataObject::get_one($type, array('Slag' => $test))->ID != $ID)) {
+			$test = $slag . '-' . $tick;
+			$tick++;
+		}
+		$slag = $test;
+		return $slag;
+	}
+	
 	public static function endsWith($haystack, $needle) {
 		$haystack = strtolower($haystack);
 		$needle = strtolower($needle);
@@ -28,8 +39,17 @@ class Utilities {
 		return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
 	}
 	public static function sanitiseClassName($string, $space_replacement = '-', $replacement = '') {
-   		$string = str_replace(' ', $space_replacement, strtolower($string));
-   		return preg_replace('/[^A-Za-z0-9\-]/', $replacement, $string);
+		
+		$words = explode(' ', trim(strtolower($string)));
+		$new_words = array();
+		foreach($words as $word) {
+			$word = preg_replace('/[^A-Za-z0-9]/', $replacement, trim($word));
+			if (strlen($word) > 0) {
+				$new_words[] = $word;
+			}
+		}
+		
+   		return implode('-', $new_words);
 	}
 	
 	public static function params_to_cachekey($params){
