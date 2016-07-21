@@ -36,6 +36,39 @@ class RPC {
 	
 	/**
 	 * @param string $endpoint: an url on the remote host
+	 * @param array | null $package: structure: array('date' => '07', 'month' => '07')
+	 * @param array | null $basic_auth: structure: array('username' => 'admin', 'password' => '123')
+	 * @param int $connection_timeout: in second. If the remote host does not reponde within the timeout limit, it kills the connection and return false. Default 1 second
+	 * @param int $timeout: in second. If the remote resource does not finished transferring within the timeout limit, it kills the connection and return false. Default 5 seconds
+         *
+	 * @return string | boolean
+	 */	
+	public static function send($endpoint, $package = null, $basic_auth = null, $connection_timeout = 1, $timeout = 5) {
+		$curl	= curl_init();
+		
+		$params = !empty($package) ? Utilities::paramStringify($package) : null;
+		
+		curl_setopt($curl, CURLOPT_URL, $endpoint);
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		if (!empty($params)) { curl_setopt($curl, CURLOPT_POSTFIELDS, $params); }
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+		
+		if (!empty($basic_auth)) {
+			curl_setopt($curl, CURLOPT_USERPWD, $basic_auth['username'] . ':' . $basic_auth['password']);
+			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		}
+		
+		$data = curl_exec($curl);
+		$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		
+		return ($httpcode>=200 && $httpcode<300) ? $data : false;
+	}
+	
+	/**
+	 * @param string $endpoint: an url on the remote host
 	 * @param array | null $basic_auth: structure: array('username' => 'admin', 'password' => '123')
 	 * @paran string $fn: filename. It needs to be the FULL path of the file that are going to be written on the disk. e.g. /var/www/vhosts/foo/httpdocs/assets/foobar.tgz
 	 * @param int $connection_timeout: in second. If the remote host does not reponde within the timeout limit, it kills the connection and return false. Default 10 seconds
