@@ -26,4 +26,23 @@ class Grid {
 		$grid->setConfig($config);
 		return $grid;
 	}
+
+	public static function makeEditable($name, $label = '', $source, $sortable = true, $fields = null) {
+		$grid = self::make($name, $label, $source, $sortable);
+		$config = $grid->getConfig();
+		$fieldEditor = new \GridFieldEditableColumns();
+		$btnInlineAdd = new \GridFieldAddNewInlineButton();
+		
+		if (!empty($fields)) {
+			$fieldEditor->setDisplayFields($fields);
+		}
+		
+		$config->removeComponentsByType('GridFieldAddNewButton')
+				->addComponents(
+					$fieldEditor, 
+					$btnInlineAdd
+				);
+		
+		return $grid;
+	}
 }
