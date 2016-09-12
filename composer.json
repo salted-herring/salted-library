@@ -4,11 +4,16 @@
 	"type": "silverstripe-module",
 	"homepage": "https://github.com/salted-herring/salted-library",
 	"license": "MIT",
-	"keywords": ["PHP", "library"],
+	"keywords": ["silverstripe", "PHP", "library"],
 	"authors": [
 		{
 			"name": "Salted Herring",
 			"homepage": "http://saltedherring.com"
 		}
-	]
+	],
+	"require": {
+		"silverstripe/framework": "3.*",
+		"silverstripe/cms": "3.*",
+		"silverstripe-australia/gridfieldextensions": "~1.3.0"
+	}
 }
