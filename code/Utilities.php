@@ -22,6 +22,7 @@ class Utilities {
 	 */
 	public static function Gravatar( $member_id, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
 		if ($member = Member::get()->byID($member_id)) {
+			$email = $member->Email;
 		    $url = 'https://www.gravatar.com/avatar/';
 		    $url .= md5( strtolower( trim( $email ) ) );
 		    $url .= "?s=$s&d=$d&r=$r";
