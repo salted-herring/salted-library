@@ -108,15 +108,15 @@ class Utilities {
 		return $html;
 	}
 
-	public static function SlagGen($type, $slag, $ID = null) {
-		$test = $slag;
+	public static function SlagGen($type, $slug, $ID = null) {
+		$test = $slug;
 		$tick = 1;
 		while (!empty(\DataObject::get_one($type, array('Slag' => $test))) && (\DataObject::get_one($type, array('Slag' => $test))->ID != $ID)) {
-			$test = $slag . '-' . $tick;
+			$test = $slug . '-' . $tick;
 			$tick++;
 		}
-		$slag = $test;
-		return $slag;
+		$slug = $test;
+		return $slug;
 	}
 
 	public static function endsWith($haystack, $needle) {
