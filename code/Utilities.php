@@ -108,8 +108,8 @@ class Utilities {
 		return $html;
 	}
 
-	public static function SlagGen($type, $slug, $ID = null) {
-		$test = $slug;
+	public static function SlagGen($type, $slag, $ID = null) {
+		$test = $slag;
 		$tick = 1;
 		while (!empty(\DataObject::get_one($type, array('Slag' => $test))) && (\DataObject::get_one($type, array('Slag' => $test))->ID != $ID)) {
 			$test = $slug . '-' . $tick;
@@ -144,30 +144,57 @@ class Utilities {
    		return implode('-', $new_words);
 	}
 
-	public static function params_to_cachekey($params){
-		$str = '';
-		if (count($params) > 0) {
-			foreach ($params as $name => $value) {
-				$value = self::sanitiseClassName($value);
-				$str .= $name . '__' . $value . '_';
-			}
-
-			$str = '__' . rtrim($str, '_');
+	public function LinkThis($all_vars, $var_name, $var_value = null) {
+		$attach = true;
+		if (empty($var_value)) {
+			unset($all_vars[$var_name]);
+		} elseif (!empty($all_vars[$var_name]) && !empty($var_value)) {
+			$all_vars[$var_name] = $var_value;
+			$attach = false;
 		}
-		return $str;
+
+		$link = $all_vars['url'] . '?';
+		unset($all_vars['url']);
+		foreach ($all_vars as $key => $value) {
+			if (is_array($value)) {
+				foreach ($value as $value_item) {
+					$link .= $key . '[]=' . $value_item . '&';
+				}
+			} else {
+				$link .= ($key . '=' . $value . '&');
+			}
+		}
+
+		if (!empty($var_value) && $attach) {
+			$link .= $var_name . '=' .$var_value;
+		}
+
+		$link = rtrim(rtrim($link, '&'), '?');
+		return $link;
 	}
 
-	public static function paramStringify($params, $prefix = '') {
-		$str = '';
-		if (count($params) > 0) {
-			foreach ($params as $name => $value) {
-				$value = str_replace(' ', '+', $value);
-				$str .= $name . '=' . $value . '&';
-			}
+	public static function stringify($query) {
+		unset($query['url']);
+		unset($query['SecurityID']);
 
-			$str = $prefix . rtrim($str, '&');
+		if (empty($query['start'])) {
+			$query['start'] = '0';
 		}
-		return $str;
+
+		ksort($query);
+		$str = '';
+		foreach ($query as $key => $value) {
+			$key = self::sanitise($key);
+			if (is_array($value)) {
+				sort($value);
+				foreach ($value as $value_item) {
+					$str .= $key . '_' . self::sanitise($value_item) . '__';
+				}
+			} else {
+				$str .= ($key . '_' . self::sanitise($value)) . '__';
+			}
+		}
+		return rtrim($str, '_');
 	}
 
 	public static function get_emails($groupCode) {
