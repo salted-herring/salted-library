@@ -130,6 +130,11 @@ class Utilities {
 		$needle = strtolower($needle);
 		return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
 	}
+
+	public static function sanitise($string, $space_replacement = '-', $replacement = '') {
+		return self::sanitiseClassName($string, $space_replacement, $replacement);
+	}
+
 	public static function sanitiseClassName($string, $space_replacement = '-', $replacement = '') {
 
 		$words = explode(' ', trim(strtolower($string)));

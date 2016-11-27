@@ -2,7 +2,7 @@
 
 class SaltedCache {
     public static function read($factory, $cache_key) {
-		$cache			=	SS_Cache::factory($factory);
+		$cache			=	\SS_Cache::factory($factory);
 		$cached			=	$cache->load($cache_key);
 
 		if (!empty($cached)) {
@@ -14,7 +14,7 @@ class SaltedCache {
 	}
 
 	public static function delete($factory, $cache_key) {
-		$cache			=	SS_Cache::factory($factory);
+		$cache			=	\SS_Cache::factory($factory);
 		$cached			=	$cache->load($cache_key);
 		if (!empty($cached)) {
 			$cache->remove($cache_key);
@@ -22,7 +22,7 @@ class SaltedCache {
 	}
 
 	public static function save($factory, $cache_key, $result) {
-		$cache			=	SS_Cache::factory($factory);
+		$cache			=	\SS_Cache::factory($factory);
 		$cache_object	=	serialize($result);
 		$cache->save($cache_object, $cache_key);
 	}
