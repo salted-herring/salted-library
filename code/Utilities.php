@@ -112,11 +112,11 @@ class Utilities {
 		$test = $slag;
 		$tick = 1;
 		while (!empty(\DataObject::get_one($type, array('Slag' => $test))) && (\DataObject::get_one($type, array('Slag' => $test))->ID != $ID)) {
-			$test = $slug . '-' . $tick;
+			$test = $slag . '-' . $tick;
 			$tick++;
 		}
-		$slug = $test;
-		return $slug;
+		$slag = $test;
+		return $slag;
 	}
 
 	public static function endsWith($haystack, $needle) {
