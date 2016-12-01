@@ -109,7 +109,7 @@ class Utilities {
 	}
 
 	public static function SlagGen($type, $slag, $ID = null) {
-		$test = $slag;
+		$test = self::sanitise($slag);
 		$tick = 1;
 		while (!empty(\DataObject::get_one($type, array('Slag' => $test))) && (\DataObject::get_one($type, array('Slag' => $test))->ID != $ID)) {
 			$test = $slag . '-' . $tick;
