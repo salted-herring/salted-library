@@ -14,11 +14,15 @@ class SaltedCache {
 	}
 
 	public static function delete($factory, $cache_key) {
-		$cache			=	\SS_Cache::factory($factory);
-		$cached			=	$cache->load($cache_key);
-		if (!empty($cached)) {
-			$cache->remove($cache_key);
-		}
+		$cache            =	\SS_Cache::factory($factory);
+        if (!empty($cache_key)) {
+    		$cached       =	$cache->load($cache_key);
+    		if (!empty($cached)) {
+    			$cache->remove($cache_key);
+    		}
+        } else {
+            $cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+        }
 	}
 
 	public static function save($factory, $cache_key, $result) {
