@@ -13,7 +13,7 @@ class SaltedCache {
 		return false;
 	}
 
-	public static function delete($factory, $cache_key) {
+	public static function delete($factory, $cache_key = null) {
 		$cache            =	\SS_Cache::factory($factory);
         if (!empty($cache_key)) {
     		$cached       =	$cache->load($cache_key);
@@ -21,7 +21,7 @@ class SaltedCache {
     			$cache->remove($cache_key);
     		}
         } else {
-            $cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+            $cache->clean(\Zend_Cache::CLEANING_MODE_ALL);
         }
 	}
 
