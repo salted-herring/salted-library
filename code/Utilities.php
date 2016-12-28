@@ -67,8 +67,19 @@ class Utilities {
 			}
 
 			return join(' ', $b);
-
 	}
+
+    public static function to_utf($kanji_chars)
+    {
+        //split word
+        preg_match_all('/./u', $kanji_chars, $matches);
+
+        $c = "";
+        foreach($matches[0] as $m){
+                $c .= "&#".base_convert(bin2hex(iconv('UTF-8',"UCS-4",$m)),16,10);
+        }
+        return $c;
+    }
 
 	/**
 	 * Get either a Gravatar URL or complete image tag for a specified email address.
@@ -200,6 +211,19 @@ class Utilities {
 			}
 		}
 		return rtrim($str, '_');
+	}
+
+    public static function paramStringify($params, $prefix = '') {
+		$str = '';
+		if (count($params) > 0) {
+			foreach ($params as $name => $value) {
+				$value = str_replace(' ', '+', $value);
+				$str .= $name . '=' . $value . '&';
+			}
+
+			$str = $prefix . rtrim($str, '&');
+		}
+		return $str;
 	}
 
 	public static function get_emails($groupCode) {
