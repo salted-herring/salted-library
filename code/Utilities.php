@@ -160,7 +160,7 @@ class Utilities {
    		return implode('-', $new_words);
 	}
 
-	public function LinkThis($all_vars, $var_name, $var_value = null) {
+	public static function LinkThis($all_vars, $var_name, $var_value = null) {
 		$attach = true;
 		if (empty($var_value)) {
 			unset($all_vars[$var_name]);
