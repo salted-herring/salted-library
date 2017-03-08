@@ -85,7 +85,7 @@ class Utilities {
         return $c;
     }
 
-    public function EmailGravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() )
+    public static function EmailGravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() )
     {
         if (self::valid_email($email)) {
             $url = 'https://www.gravatar.com/avatar/';
