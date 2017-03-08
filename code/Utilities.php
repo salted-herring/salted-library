@@ -9,64 +9,68 @@ namespace SaltedHerring;
 class Utilities {
 
     public static function css_browser_selector($ua=null) {
-            $ua = ($ua) ? strtolower($ua) : strtolower($_SERVER['HTTP_USER_AGENT']);
+        if (empty($_SERVER['HTTP_USER_AGENT'])) {
+            return ' unknown-browser';
+        }
 
-            $g = 'gecko';
-            $w = 'webkit';
-            $s = 'safari';
-            $b = array();
+        $ua = ($ua) ? strtolower($ua) : strtolower($_SERVER['HTTP_USER_AGENT']);
 
-            // browser
-            if(!preg_match('/opera|webtv/i', $ua) && preg_match('/msie\s(\d)/', $ua, $array)) {
-                    $b[] = 'ie ie' . $array[1];
-            }	else if(strstr($ua, 'firefox/2')) {
-                    $b[] = $g . ' ff2';
-            }	else if(strstr($ua, 'firefox/3.5')) {
-                    $b[] = $g . ' ff3 ff3_5';
-            }	else if(strstr($ua, 'firefox/3')) {
-                    $b[] = $g . ' ff3';
-            } else if(strstr($ua, 'gecko/')) {
-                    $b[] = $g;
-            } else if(preg_match('/opera(\s|\/)(\d+)/', $ua, $array)) {
-                    $b[] = 'opera opera' . $array[2];
-            } else if(strstr($ua, 'konqueror')) {
-                    $b[] = 'konqueror';
-            } else if(strstr($ua, 'chrome')) {
-                    $b[] = $w . ' ' . $s . ' chrome';
-            } else if(strstr($ua, 'iron')) {
-                    $b[] = $w . ' ' . $s . ' iron';
-            } else if(strstr($ua, 'applewebkit/')) {
-                    $b[] = (preg_match('/version\/(\d+)/i', $ua, $array)) ? $w . ' ' . $s . ' ' . $s . $array[1] : $w . ' ' . $s;
-            } else if(strstr($ua, 'mozilla/')) {
-                    $b[] = $g;
-            }
+        $g = 'gecko';
+        $w = 'webkit';
+        $s = 'safari';
+        $b = array();
 
-            // platform
-            if(strstr($ua, 'j2me')) {
-                    $b[] = 'mobile';
-            } else if(strstr($ua, 'iphone')) {
-                    $b[] = 'iphone phone mobile';
-            } else if(strstr($ua, 'ipod')) {
-                    $b[] = 'ipod phone mobile';
-            } else if(strstr($ua, 'android')) {
-                    $b[] = 'android phone mobile';
-            } else if(strstr($ua, 'ipad')) {
-                    $b[] = 'ipad mobile';
-            } else if(strstr($ua, 'mac')) {
-                    $b[] = 'mac';
-            } else if(strstr($ua, 'darwin')) {
-                    $b[] = 'mac';
-            } else if(strstr($ua, 'webtv')) {
-                    $b[] = 'webtv';
-            } else if(strstr($ua, 'win')) {
-                    $b[] = 'win';
-            } else if(strstr($ua, 'freebsd')) {
-                    $b[] = 'freebsd';
-            } else if(strstr($ua, 'x11') || strstr($ua, 'linux')) {
-                    $b[] = 'linux';
-            }
+        // browser
+        if(!preg_match('/opera|webtv/i', $ua) && preg_match('/msie\s(\d)/', $ua, $array)) {
+                $b[] = 'ie ie' . $array[1];
+        }	else if(strstr($ua, 'firefox/2')) {
+                $b[] = $g . ' ff2';
+        }	else if(strstr($ua, 'firefox/3.5')) {
+                $b[] = $g . ' ff3 ff3_5';
+        }	else if(strstr($ua, 'firefox/3')) {
+                $b[] = $g . ' ff3';
+        } else if(strstr($ua, 'gecko/')) {
+                $b[] = $g;
+        } else if(preg_match('/opera(\s|\/)(\d+)/', $ua, $array)) {
+                $b[] = 'opera opera' . $array[2];
+        } else if(strstr($ua, 'konqueror')) {
+                $b[] = 'konqueror';
+        } else if(strstr($ua, 'chrome')) {
+                $b[] = $w . ' ' . $s . ' chrome';
+        } else if(strstr($ua, 'iron')) {
+                $b[] = $w . ' ' . $s . ' iron';
+        } else if(strstr($ua, 'applewebkit/')) {
+                $b[] = (preg_match('/version\/(\d+)/i', $ua, $array)) ? $w . ' ' . $s . ' ' . $s . $array[1] : $w . ' ' . $s;
+        } else if(strstr($ua, 'mozilla/')) {
+                $b[] = $g;
+        }
 
-            return join(' ', $b);
+        // platform
+        if(strstr($ua, 'j2me')) {
+                $b[] = 'mobile';
+        } else if(strstr($ua, 'iphone')) {
+                $b[] = 'iphone phone mobile';
+        } else if(strstr($ua, 'ipod')) {
+                $b[] = 'ipod phone mobile';
+        } else if(strstr($ua, 'android')) {
+                $b[] = 'android phone mobile';
+        } else if(strstr($ua, 'ipad')) {
+                $b[] = 'ipad mobile';
+        } else if(strstr($ua, 'mac')) {
+                $b[] = 'mac';
+        } else if(strstr($ua, 'darwin')) {
+                $b[] = 'mac';
+        } else if(strstr($ua, 'webtv')) {
+                $b[] = 'webtv';
+        } else if(strstr($ua, 'win')) {
+                $b[] = 'win';
+        } else if(strstr($ua, 'freebsd')) {
+                $b[] = 'freebsd';
+        } else if(strstr($ua, 'x11') || strstr($ua, 'linux')) {
+                $b[] = 'linux';
+        }
+
+        return join(' ', $b);
     }
 
     public static function to_utf($kanji_chars)
@@ -79,6 +83,24 @@ class Utilities {
                 $c .= "&#".base_convert(bin2hex(iconv('UTF-8',"UCS-4",$m)),16,10);
         }
         return $c;
+    }
+
+    public function EmailGravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() )
+    {
+        if (self::valid_email($email)) {
+            $url = 'https://www.gravatar.com/avatar/';
+            $url .= md5( strtolower( trim( $email ) ) );
+            $url .= "?s=$s&d=$d&r=$r";
+            if ( $img ) {
+                $url = '<img src="' . $url . '"';
+                foreach ( $atts as $key => $val )
+                    $url .= ' ' . $key . '="' . $val . '"';
+                $url .= ' />';
+            }
+            return $url;
+        }
+
+        return null;
     }
 
     /**
