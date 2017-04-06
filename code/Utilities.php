@@ -179,7 +179,7 @@ class Utilities {
             }
         }
 
-           return implode('-', $new_words);
+        return implode($space_replacement, $new_words);
     }
 
     public static function LinkThis($all_vars, $var_name, $var_value = null) {
