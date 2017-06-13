@@ -143,12 +143,13 @@ class Utilities {
 
     public static function SlagGen($type, $slag, $ID = null) {
         $test = self::sanitise($slag);
-        $tick = 1;
-        while (!(\DataObject::get_one($type, array('Slag' => $test))) && (\DataObject::get_one($type, array('Slag' => $test))->ID != $ID)) {
-            $test = $slag . '-' . $tick;
-            $tick++;
+        $existing = $type::get()->filter(array('Slag' => $test));
+        if (!empty($ID)) {
+            $existing = $existing->exclude(array('ID' => $ID));
         }
-        $slag = $test;
+        $n = $existing->count();
+
+        $slag = ($test . $n == 0 ? '' : '-' . $n);
         return $slag;
     }
 
@@ -418,5 +419,18 @@ class Utilities {
         }
 
         return $a_data;
+    }
+
+    public static function shorten_number($n)
+    {
+        if ($n > 9999 && $n <= 999999) {
+            $n = (round($n / 100) * 0.1) . 'K';
+        } elseif ($n > 999999) {
+            $n = (round($n / 100000) * 0.1) . 'M';
+        } else {
+            $n = number_format($n);
+        }
+
+        return $n;
     }
 }
