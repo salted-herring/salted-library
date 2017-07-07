@@ -40,7 +40,7 @@ class Geocoding
         );
 
         if (!empty($api)) {
-            $query['key'] = $api
+            $query['key'] = $api;
         }
 
         $response = $client->request(
