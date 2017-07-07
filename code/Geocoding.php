@@ -1,5 +1,7 @@
 <?php
 
+namespace SaltedHerring;
+
 class Geocoding
 {
     public static function LocToCoord($address, $api = '')
