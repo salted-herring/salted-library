@@ -1,6 +1,7 @@
 <?php
 
 namespace SaltedHerring;
+use GuzzleHttp\Client;
 
 class Geocoding
 {
