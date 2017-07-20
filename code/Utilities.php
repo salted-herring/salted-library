@@ -421,9 +421,9 @@ class Utilities {
         return $a_data;
     }
 
-    public static function shorten_number($n)
+    public static function shorten_number($n, $from = 9999)
     {
-        if ($n > 9999 && $n <= 999999) {
+        if ($n > $from && $n <= 999999) {
             $n = (round($n / 100) * 0.1) . 'K';
         } elseif ($n > 999999) {
             $n = (round($n / 100000) * 0.1) . 'M';
