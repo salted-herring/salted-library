@@ -5,20 +5,31 @@
  * Generic Currency functions
  * */
 namespace SaltedHerring;
-class Currency {
-	public static function exchange($amount, $from = 'NZD', $to = 'CNY'){
-		$url = "http://www.google.com/finance/converter?a=$amount&from=$from&to=$to"; 
-		if ($data = RPC::fetch($url)) {
-			$dom = new \DOMDocument;
-			@$dom->loadHTML($data);
-			$finder = new \DomXPath($dom);
-			$classname="bld";
-			$nodes = $finder->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' $classname ')]");
-			$node = $nodes->item(0)->nodeValue;
-			$amount = str_replace(' CNY', '', $node);
-			
-			return number_format($amount, 2, '.', ',');
-		}
-		return false;
-	} 
+use GuzzleHttp\Client;
+class Currency
+{
+    public static function exchange($amount, $from = 'NZD', $to = 'CNY', $date = 'latest')
+    {
+        $client = new Client([
+            'base_uri' => 'http://api.fixer.io/'
+        ]);
+
+        $query = array(
+            'base'      =>  $from,
+            'symbols'   =>  $to
+        );
+
+        $response = $client->request(
+            'GET',
+            $date,
+            array(
+                'query' => $query
+            )
+        );
+
+        $data   =   json_decode($response->getBody());
+        $amount =   $data->rates->$to;
+
+        return number_format($amount, 2, '.', ',');
+    }
 }
