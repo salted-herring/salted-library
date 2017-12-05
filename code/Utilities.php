@@ -312,17 +312,17 @@ class Utilities {
      * Take a string with new line feeds & create paragraphs.
      * */
     public static function nl2p($string, $viewer) {
-        $items = new ArrayList();
+        $items = new \ArrayList();
 
         foreach(explode(PHP_EOL, $string) as $item) {
             if (trim($item)) {
-                $items->push(new ArrayData(array(
+                $items->push(new \ArrayData(array(
                     'line'	=> $item
                 )));
             }
         }
 
-        return $viewer->customise(new ArrayData(array(
+        return $viewer->customise(new \ArrayData(array(
             'Paragraphs' => $items
         )))->renderWith('Paragraphs');
     }
