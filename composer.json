@@ -14,7 +14,7 @@
 	"require": {
 		"silverstripe/framework": ">=3.4",
 		"silverstripe/cms": ">=3.4",
-		"symbiote/silverstripe-gridfieldextensions": "~1.4.2",
+		"symbiote/silverstripe-gridfieldextensions": "2.x-dev",
         	"guzzlehttp/guzzle": ">=6.2"
 	}
 }
